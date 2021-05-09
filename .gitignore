@@ -2,4 +2,5 @@ bin/
 PocketMine-MP/
 *.exe
 *.phar
+*.zip
 start.*
