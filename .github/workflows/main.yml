@@ -26,6 +26,20 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -qq -y nsis > /dev/null
           makensis install.nsi
 
-      - name: Test
-        run: |
-          ls -la
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 1.0.0
+          release_name: PocketMine-MP 1.0.0
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./PocketMine-MP-1.0.0.exe
+          asset_name: PocketMine-MP-1.0.0.exe
