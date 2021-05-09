@@ -38,7 +38,7 @@
 ;------------------------------------------
 ;Interface Settings
 
-  !define MUI_ICON "F:\PmInstaller\pocketmine.ico"
+  !define MUI_ICON "pocketmine.ico"
 
   !define MUI_HEADERIMAGE
   !define MUI_HEADERIMAGE_BITMAP "modern-header.bmp"
