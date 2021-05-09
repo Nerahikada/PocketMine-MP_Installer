@@ -17,12 +17,13 @@ jobs:
         run: |
           VERSION=`curl -s https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/build_info.json | jq -r '.base_version'`
           echo "::set-output name=VERSION::${VERSION}"
+          echo $VERSION > version
 
       - uses: actions/cache@v2
         id: cache
         with:
-          path: install.nsi
-          key: pmmp-${{ steps.pmmp_version.outputs.VERSION }}-clear-cache
+          path: version
+          key: pmmp-${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Rewrite install.nsi
         if: steps.cache.outputs.cache-hit != 'true'
