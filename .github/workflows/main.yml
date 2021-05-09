@@ -18,11 +18,13 @@ jobs:
           curl -JLOs "https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/PocketMine-MP.phar" &
           curl -JLOs "https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/start.cmd" &
           wait
-          unzip PHP-7.4-Windows-x64.zip
+          unzip -q PHP-7.4-Windows-x64.zip
           ls -la
 
       - name: Create installer
-        uses: joncloud/makensis-action@v3.5
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -qq -y nsis
+          makensis installer.nsi
 
       - name: Test
         run: |
