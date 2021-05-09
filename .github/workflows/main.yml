@@ -12,7 +12,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get PocketMine-MP version
+        id: pmmp_version
+        run: |
+          VERSION=`curl -s https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/build_info.json | jq -r '.base_version'`
+          echo "::set-output name=VERSION::${VERSION}"
+
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            PHP-7.4-Windows-x64.zip
+            PocketMine-MP.phar
+            start.cmd
+          key: pmmp-${{ steps.pmmp_version.outputs.VERSION }}
+
+      - name: Rewrite install.nsi
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sed -i 's/,REPLACE_VERSION,/${{ steps.pmmp_version.outputs.VERSION }}/' install.nsi
+          cat install.nsi
+
       - name: Download files
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           curl -JLOs "https://jenkins.pmmp.io/job/PHP-7.4-Aggregate/lastSuccessfulBuild/artifact/PHP-7.4-Windows-x64.zip" &
           curl -JLOs "https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/PocketMine-MP.phar" &
@@ -22,25 +44,28 @@ jobs:
           ls -la
 
       - name: Create installer
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update -qq && sudo apt-get install -qq -y nsis > /dev/null
           makensis install.nsi
 
       - name: Create Release
+        if: steps.cache.outputs.cache-hit != 'true'
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: 1.0.0
-          release_name: PocketMine-MP 1.0.0
+          tag_name: $ID
+          release_name: PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Upload Release Asset
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./PocketMine-MP-1.0.0.exe
-          asset_name: PocketMine-MP-1.0.0.exe
+          asset_path: ./PocketMine-MP-${{ steps.pmmp_version.outputs.VERSION }}.exe
+          asset_name: PocketMine-MP-${{ steps.pmmp_version.outputs.VERSION }}.exe
           asset_content_type: application/octet-stream

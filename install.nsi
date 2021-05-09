@@ -12,7 +12,7 @@
 ;Information
 
   !define PRODUCT_NAME "PocketMine-MP"
-  !define PRODUCT_VERSION "1.0.0"
+  !define PRODUCT_VERSION ",REPLACE_VERSION,"
 
   VIProductVersion ${PRODUCT_VERSION}.0"
   VIAddVersionKey ProductName "${PRODUCT_NAME}"
