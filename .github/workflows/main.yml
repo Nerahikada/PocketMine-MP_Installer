@@ -39,7 +39,6 @@ jobs:
           curl -JLOs "https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/start.cmd" &
           wait
           unzip -q PHP-7.4-Windows-x64.zip
-          ls -la
 
       - name: Create installer
         if: steps.cache.outputs.cache-hit != 'true'
