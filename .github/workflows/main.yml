@@ -67,11 +67,3 @@ jobs:
           asset_path: ./PocketMine-MP-${{ steps.pmmp_version.outputs.VERSION }}.exe
           asset_name: PocketMine-MP-${{ steps.pmmp_version.outputs.VERSION }}.exe
           asset_content_type: application/octet-stream
-
-      - uses: actions/github-script@v4
-        if: steps.cache.outputs.cache-hit == 'true'
-        with:
-          script: |
-            const { owner, repo } = context.repo
-            const run_id = "${{ github.run_id }}"
-            await github.actions.deleteWorkflowRun({ owner, repo, run_id })
