@@ -25,7 +25,7 @@ jobs:
             PHP-7.4-Windows-x64.zip
             PocketMine-MP.phar
             start.cmd
-          key: ${{ runner.os }}-pmmp-${{ steps.pmmp_version.outputs.VERSION }}
+          key: pmmpinstaller-${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Rewrite install.nsi
         if: steps.cache.outputs.cache-hit != 'true'
