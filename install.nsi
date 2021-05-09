@@ -29,6 +29,8 @@
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
   OutFile "${PRODUCT_NAME}-${PRODUCT_VERSION}.exe"
 
+  BrandingText "${PRODUCT_NAME} ${PRODUCT_VERSION}"
+
   InstallDir "$EXEDIR\${PRODUCT_NAME}"
 
   RequestExecutionLevel admin
@@ -143,19 +145,19 @@
 ;------------------------------------------
 ;Installer Sections
 
+Section "PocketMine-MP"
+  SetOutPath $INSTDIR
+  File "PocketMine-MP.phar"
+  File "start.cmd"
+  SetOutPath "$INSTDIR\bin"
+  File /r "bin\"
+SectionEnd
+
 Section "Visual C++ Runtime"
   SetOutPath $INSTDIR
   File "vc_redist.x64.exe"
   ExecWait "$INSTDIR\vc_redist.x64.exe /quiet /norestart"
   Delete "$INSTDIR\vc_redist.x64.exe"
-SectionEnd
-
-Section "PocketMine-MP"
-  SetOutPath "$INSTDIR\bin"
-  File /r "bin\"
-  SetOutPath $INSTDIR
-  File "PocketMine-MP.phar"
-  File "start.cmd"
 SectionEnd
 
 Section "Allow loopback connection"
