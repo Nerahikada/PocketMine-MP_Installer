@@ -1,0 +1,29 @@
+name: Compile installer
+
+on:
+  schedule:
+    - cron: '27 13 * * *'
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download files
+        run: |
+          curl -JLOs "https://jenkins.pmmp.io/job/PHP-7.4-Aggregate/lastSuccessfulBuild/artifact/PHP-7.4-Windows-x64.zip" &
+          curl -JLOs "https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/PocketMine-MP.phar" &
+          curl -JLOs "https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/start.cmd" &
+          wait
+          unzip PHP-7.4-Windows-x64.zip
+          ls -la
+
+      - name: Create installer
+        uses: joncloud/makensis-action@v3.5
+
+      - name: Test
+        run: |
+          ls -la
