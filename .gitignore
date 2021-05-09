@@ -1,0 +1,5 @@
+bin/
+PocketMine-MP/
+*.exe
+*.phar
+start.*
