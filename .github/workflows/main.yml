@@ -21,10 +21,6 @@ jobs:
       - uses: actions/cache@v2
         id: cache
         with:
-          path: |
-            PHP-7.4-Windows-x64.zip
-            PocketMine-MP.phar
-            start.cmd
           key: pmmp-${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Rewrite install.nsi
