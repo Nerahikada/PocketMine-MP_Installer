@@ -55,6 +55,7 @@ jobs:
         with:
           tag_name: ${{ steps.pmmp_version.outputs.VERSION }}
           release_name: PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}
+          body: Release PocketMine-MP v${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Upload Release Asset
         if: steps.cache.outputs.cache-hit != 'true'
