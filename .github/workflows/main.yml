@@ -23,7 +23,7 @@ jobs:
         id: cache
         with:
           path: version
-          key: pmmp-${{ steps.pmmp_version.outputs.VERSION }}
+          key: pmmp-files-${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Rewrite install.nsi
         if: steps.cache.outputs.cache-hit != 'true'
