@@ -54,8 +54,7 @@
   ShowInstDetails show
   !define MUI_FINISHPAGE_NOAUTOCLOSE
 
-  !define MUI_FINISHPAGE_RUN
-  !define MUI_FINISHPAGE_RUN_FUNCTION RunPMMP
+  !define MUI_FINISHPAGE_RUN "$INSTDIR\start.cmd"
 
 ;------------------------------------------
 ;Pages
@@ -163,10 +162,3 @@ SectionEnd
 Section "Allow loopback connection"
   nsExec::Exec "CheckNetIsolation LoopbackExempt -a -p=S-1-15-2-1958404141-86561845-1752920682-3514627264-368642714-62675701-733520436"
 SectionEnd
-
-;------------------------------------------
-;Functions
-
-Function RunPMMP
-  ExecShell "" "start.cmd"
-FunctionEnd
