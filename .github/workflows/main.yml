@@ -17,12 +17,14 @@ jobs:
         run: |
           VERSION=`curl -s https://jenkins.pmmp.io/job/PocketMine-MP/lastSuccessfulBuild/artifact/build_info.json | jq -r '.base_version'`
           echo "::set-output name=VERSION::${VERSION}"
-          echo $VERSION > version
+          CHANGELOG=`echo ${VERSION} | sed 's/\.[0-9]*//2'`.md#`echo ${VERSION} | sed 's/\.*//g'`
+          echo "::set-output name=CHANGELOG::${CHANGELOG}"
+          echo $VERSION > version_cache
 
       - uses: actions/cache@v2
         id: cache
         with:
-          path: version
+          path: version_cache
           key: pmmp-files-${{ steps.pmmp_version.outputs.VERSION }}
 
       - name: Rewrite install.nsi
@@ -53,7 +55,9 @@ jobs:
         with:
           tag_name: ${{ steps.pmmp_version.outputs.VERSION }}
           release_name: PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}
-          body: Release PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}
+          body: |
+            Release PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}.
+            You can see changelogs [here](https://github.com/pmmp/PocketMine-MP/blob/${{ steps.pmmp_version.outputs.VERSION }}/changelogs/${{ steps.pmmp_version.outputs.CHANGELOG }}).
 
       - name: Upload Release Asset
         if: steps.cache.outputs.cache-hit != 'true'
