@@ -17,9 +17,10 @@
   VIProductVersion "${PRODUCT_VERSION}.0"
   VIAddVersionKey ProductName "${PRODUCT_NAME}"
   VIAddVersionKey ProductVersion "${PRODUCT_VERSION}"
-  VIAddVersionKey LegalCopyright ""
   VIAddVersionKey FileDescription "${PRODUCT_NAME} ${PRODUCT_VERSION}"
   VIAddVersionKey FileVersion "${PRODUCT_VERSION}"
+  VIAddVersionKey LegalCopyright "Nerahikada"
+  VIAddVersionKey Comment "https://github.com/Nerahikada/PocketMine-MP_Installer"
 
 ;------------------------------------------
 ;General
@@ -35,17 +36,17 @@
 
   RequestExecutionLevel admin
 
-  SetCompressor /solid lzma
+  ;SetCompressor /solid lzma
 
 ;------------------------------------------
 ;Interface Settings
 
-  !define MUI_ICON "pocketmine.ico"
+  !define MUI_ICON "assets\pocketmine.ico"
 
   !define MUI_HEADERIMAGE
-  !define MUI_HEADERIMAGE_BITMAP "modern-header.bmp"
+  !define MUI_HEADERIMAGE_BITMAP "assets\modern-header.bmp"
   !define MUI_WELCOMEFINISHPAGE
-  !define MUI_WELCOMEFINISHPAGE_BITMAP "modern-wizard.bmp"
+  !define MUI_WELCOMEFINISHPAGE_BITMAP "assets\modern-wizard.bmp"
 
   !define MUI_ABORTWARNING
 
@@ -60,7 +61,7 @@
 ;Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "LICENSE"
+  !insertmacro MUI_PAGE_LICENSE "assets\LICENSE.txt"
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
