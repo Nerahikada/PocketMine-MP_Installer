@@ -16,7 +16,7 @@ jobs:
         id: pmmp_version
         run: |
           release=`curl -s https://api.github.com/repos/pmmp/PocketMine-MP/releases/latest`
-          VERSION=`jq -r '.tag_name'`
+          VERSION=`echo $release | jq -r '.tag_name'`
           CHANGELOG=`echo ${VERSION} | sed 's/\.[0-9]*//2'`.md#`echo ${VERSION} | sed 's/\.*//g'`
 
           echo $VERSION > version_cache
