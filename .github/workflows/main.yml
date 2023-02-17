@@ -38,7 +38,7 @@ jobs:
       - name: Download files
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          curl -JLOs "https://jenkins.pmmp.io/job/PHP-8.0-Aggregate/lastSuccessfulBuild/artifact/PHP-8.0-Windows-x64-PM4.zip" &
+          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/download/php-8.0-latest/PHP-Windows-x64-PM4.zip" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/download/${{ steps.pmmp_version.outputs.VERSION }}/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/download/${{ steps.pmmp_version.outputs.VERSION }}/start.cmd" &
           wait
