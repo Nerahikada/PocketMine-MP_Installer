@@ -42,7 +42,7 @@ jobs:
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/download/${{ steps.pmmp_version.outputs.VERSION }}/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/download/${{ steps.pmmp_version.outputs.VERSION }}/start.cmd" &
           wait
-          unzip -q PHP-8.0-Windows-x64-PM4.zip
+          unzip -q PHP-Windows-x64-PM4.zip
 
       - name: Create installer
         if: steps.cache.outputs.cache-hit != 'true'
