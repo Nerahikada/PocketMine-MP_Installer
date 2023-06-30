@@ -40,8 +40,8 @@ jobs:
         run: |
           VERSION=${{ steps.pmmp_version.outputs.VERSION }}
           curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/latest/download/PHP-Windows-x64-PM${VERSION:0:1}.zip" &
-          curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/download/${VERSION}/PocketMine-MP.phar" &
-          curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/download/${VERSION}/start.cmd" &
+          curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
+          curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
           wait
           unzip -q PHP-Windows-x64-PM${VERSION:0:1}.zip
 
