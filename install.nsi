@@ -34,7 +34,7 @@
 
   InstallDir "$EXEDIR\${PRODUCT_NAME}"
 
-  RequestExecutionLevel admin
+  RequestExecutionLevel user
 
   ;SetCompressor /solid lzma
 
