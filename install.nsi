@@ -161,5 +161,5 @@ Section "Visual C++ Runtime"
 SectionEnd
 
 Section "Allow loopback connection"
-  nsExec::Exec "CheckNetIsolation LoopbackExempt -a -p=S-1-15-2-1958404141-86561845-1752920682-3514627264-368642714-62675701-733520436"
+  nsExec::Exec "powershell start-process CheckNetIsolation 'LoopbackExempt -a -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe' -verb runas"
 SectionEnd
