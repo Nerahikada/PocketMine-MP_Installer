@@ -62,6 +62,7 @@
 
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "assets\LICENSE.txt"
+  !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
@@ -145,7 +146,7 @@
 ;------------------------------------------
 ;Installer Sections
 
-Section "PocketMine-MP"
+Section "PocketMine-MP" Section_1
   SetOutPath $INSTDIR
   File "PocketMine-MP.phar"
   File "start.cmd"
@@ -153,13 +154,32 @@ Section "PocketMine-MP"
   File /r "bin\"
 SectionEnd
 
-Section "Visual C++ Runtime"
+SectionGroup "Development Plugins" Section_2
+  Section /o "DevTools" Section_3
+    SetOutPath "$INSTDIR\plugins"
+    File "DevTools.phar"
+  SectionEnd
+SectionGroupEnd
+
+Section "Visual C++ Runtime" Section_4
   SetOutPath $INSTDIR
   File "vc_redist.x64.exe"
   ExecWait "$INSTDIR\vc_redist.x64.exe /quiet /norestart"
   Delete "$INSTDIR\vc_redist.x64.exe"
 SectionEnd
 
-Section "Allow loopback connection"
+Section "Allow loopback connection" Section_5
   nsExec::Exec "powershell start-process CheckNetIsolation 'LoopbackExempt -a -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe' -verb runas"
 SectionEnd
+
+;------------------------------------------
+;Descriptions
+
+;Assign language strings to sections
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section_1} "Minimum files required for running PocketMine-MP"
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section_2} "PocketMine-MP plugins for development"
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section_3} "Development tools plugin for PocketMine-MP"
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section_4} "Visual C++ Redistributable installs Microsoft C and C++ (MSVC) runtime libraries (required to run PHP)"
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section_5} "Allow Minecraft to make a loopback connection to localhost"
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
