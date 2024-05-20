@@ -159,6 +159,10 @@ SectionGroup "Development Plugins" Section_2
     SetOutPath "$INSTDIR\plugins"
     File "DevTools.phar"
   SectionEnd
+  Section /o "DEVirion" Section_6
+    SetOutPath "$INSTDIR\plugins"
+    File "DEVirion_dev-45.phar"
+  SectionEnd
 SectionGroupEnd
 
 Section "Visual C++ Runtime" Section_4
@@ -182,4 +186,5 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${Section_3} "Development tools plugin for PocketMine-MP"
   !insertmacro MUI_DESCRIPTION_TEXT ${Section_4} "Visual C++ Redistributable installs Microsoft C and C++ (MSVC) runtime libraries (required to run PHP)"
   !insertmacro MUI_DESCRIPTION_TEXT ${Section_5} "Allow Minecraft to make a loopback connection to localhost"
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section_6} "Plugin used for debugging virions or plugins that use virions"
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
