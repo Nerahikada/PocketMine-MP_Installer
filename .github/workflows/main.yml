@@ -43,6 +43,7 @@ jobs:
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
           curl -JLOs "https://github.com/pmmp/DevTools/releases/latest/download/DevTools.phar" &
+          curl -JLOs "https://poggit.pmmp.io/r/207634/DEVirion_dev-45.phar" &
           wait
           unzip -q PHP-Windows-x64-PM${VERSION:0:1}.zip
 
