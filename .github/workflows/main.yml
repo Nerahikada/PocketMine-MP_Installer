@@ -25,6 +25,10 @@ jobs:
           store VERSION $VERSION
           store CHANGELOG $CHANGELOG
 
+          release=`curl -s https://update.pmmp.io/api?channel=stable`
+          PHP_VERSION=`echo $release | jq -r '.php_version'`
+          store PHP_VERSION $PHP_VERSION
+
       - uses: actions/cache@v3
         id: cache
         with:
@@ -39,12 +43,12 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           VERSION=${{ steps.pmmp_version.outputs.VERSION }}
-          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/latest/download/PHP-Windows-x64-PM${VERSION:0:1}.zip" &
+          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/pm{VERSION:0:1}-latest/download/PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
           curl -JLOs "https://github.com/pmmp/DevTools/releases/latest/download/DevTools.phar" &
           wait
-          unzip -q PHP-Windows-x64-PM${VERSION:0:1}.zip
+          unzip -q PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip
 
       - name: Create installer
         if: steps.cache.outputs.cache-hit != 'true'
