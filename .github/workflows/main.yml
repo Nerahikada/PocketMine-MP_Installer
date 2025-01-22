@@ -24,7 +24,7 @@ jobs:
 
           store() { echo "::set-output name=$1::$2"; }
           store PHP_VERSION $PHP_VERSION
-          store PM_VERSION PM_VERSION
+          store PM_VERSION $PM_VERSION
           store CHANGELOG $CHANGELOG
 
       - uses: actions/cache@v4
