@@ -15,42 +15,40 @@ jobs:
       - name: Get PocketMine-MP version
         id: pmmp_version
         run: |
-          release=`curl -s https://api.github.com/repos/pmmp/PocketMine-MP/releases/latest`
-          VERSION=`echo $release | jq -r '.tag_name'`
-          CHANGELOG=`echo ${VERSION} | sed 's/\.[0-9]*//2'`.md#`echo ${VERSION} | sed 's/\.*//g'`
+          release_info=`curl -s https://update.pmmp.io/api?channel=stable`
+          PHP_VERSION=`echo $release_info | jq -r '.php_version'`
+          PM_VERSION=`echo $release_info | jq -r '.base_version'`
+          CHANGELOG=`echo ${PM_VERSION} | sed 's/\.[0-9]*//2'`.md#`echo ${PM_VERSION} | sed 's/\.*//g'`
 
-          echo $VERSION > version_cache
+          echo $PM_VERSION > version_cache
 
           store() { echo "::set-output name=$1::$2"; }
-          store VERSION $VERSION
-          store CHANGELOG $CHANGELOG
-
-          release2=`curl -s https://update.pmmp.io/api?channel=stable`
-          PHP_VERSION=`echo $release2 | jq -r '.php_version'`
           store PHP_VERSION $PHP_VERSION
+          store PM_VERSION PM_VERSION
+          store CHANGELOG $CHANGELOG
 
       - uses: actions/cache@v4
         id: cache
         with:
           path: version_cache
-          key: pmmp-files-${{ steps.pmmp_version.outputs.VERSION }}
+          key: pmmp-files-${{ steps.pmmp_version.outputs.PM_VERSION }}
 
       - name: Rewrite install.nsi
         if: steps.cache.outputs.cache-hit != 'true'
-        run: sed -i 's/0.0.0/${{ steps.pmmp_version.outputs.VERSION }}/' install.nsi
+        run: sed -i 's/0.0.0/${{ steps.pmmp_version.outputs.PM_VERSION }}/' install.nsi
 
       - name: Download files
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          VERSION=${{ steps.pmmp_version.outputs.VERSION }}
+          PM_VERSION=${{ steps.pmmp_version.outputs.PM_VERSION }}
           PHP_VERSION=${{ steps.pmmp_version.outputs.PHP_VERSION }}
-          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/download/pm${VERSION:0:1}-latest/PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip" &
+          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/download/pm${PM_VERSION:0:1}-latest/PHP-${PHP_VERSION}-Windows-x64-PM${PM_VERSION:0:1}.zip" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
           curl -JLOs "https://github.com/pmmp/DevTools/releases/latest/download/DevTools.phar" &
           curl -JLOs "https://aka.ms/vs/17/release/vc_redist.x64.exe" &
           wait
-          unzip -q PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip
+          unzip -q PHP-${PHP_VERSION}-Windows-x64-PM${PM_VERSION:0:1}.zip
 
       - name: Create installer
         if: steps.cache.outputs.cache-hit != 'true'
@@ -65,11 +63,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.pmmp_version.outputs.VERSION }}
-          release_name: PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}
+          tag_name: ${{ steps.pmmp_version.outputs.PM_VERSION }}
+          release_name: PocketMine-MP ${{ steps.pmmp_version.outputs.PM_VERSION }}
           body: |
-            Release PocketMine-MP ${{ steps.pmmp_version.outputs.VERSION }}.
-            You can see changelogs [here](https://github.com/pmmp/PocketMine-MP/blob/${{ steps.pmmp_version.outputs.VERSION }}/changelogs/${{ steps.pmmp_version.outputs.CHANGELOG }}).
+            Release PocketMine-MP ${{ steps.pmmp_version.outputs.PM_VERSION }}.
+            You can see changelogs [here](https://github.com/pmmp/PocketMine-MP/blob/${{ steps.pmmp_version.outputs.PM_VERSION }}/changelogs/${{ steps.pmmp_version.outputs.CHANGELOG }}).
 
       - name: Upload Release Asset
         if: steps.cache.outputs.cache-hit != 'true'
@@ -78,6 +76,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./PocketMine-MP-${{ steps.pmmp_version.outputs.VERSION }}.exe
-          asset_name: PocketMine-MP-${{ steps.pmmp_version.outputs.VERSION }}.exe
+          asset_path: ./PocketMine-MP-${{ steps.pmmp_version.outputs.PM_VERSION }}.exe
+          asset_name: PocketMine-MP-${{ steps.pmmp_version.outputs.PM_VERSION }}.exe
           asset_content_type: application/octet-stream
