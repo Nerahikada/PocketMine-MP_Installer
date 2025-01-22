@@ -43,7 +43,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           VERSION=${{ steps.pmmp_version.outputs.VERSION }}
-          PHP_VERSION=${{ steps.pmmp_version.outputs.PHP_VERSION }
+          PHP_VERSION=${{ steps.pmmp_version.outputs.PHP_VERSION }}
           curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/pm{VERSION:0:1}-latest/download/PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
