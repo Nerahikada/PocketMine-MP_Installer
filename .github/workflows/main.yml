@@ -48,6 +48,7 @@ jobs:
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
           curl -JLOs "https://github.com/pmmp/DevTools/releases/latest/download/DevTools.phar" &
+          curl -JLOs "https://aka.ms/vs/17/release/vc_redist.x64.exe" &
           wait
           unzip -q PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip
 
