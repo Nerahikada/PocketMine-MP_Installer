@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get PocketMine-MP version
         id: pmmp_version
@@ -25,7 +25,11 @@ jobs:
           store VERSION $VERSION
           store CHANGELOG $CHANGELOG
 
-      - uses: actions/cache@v3
+          release2=`curl -s https://update.pmmp.io/api?channel=stable`
+          PHP_VERSION=`echo $release2 | jq -r '.php_version'`
+          store PHP_VERSION $PHP_VERSION
+
+      - uses: actions/cache@v4
         id: cache
         with:
           path: version_cache
@@ -39,12 +43,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           VERSION=${{ steps.pmmp_version.outputs.VERSION }}
-          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/latest/download/PHP-Windows-x64-PM${VERSION:0:1}.zip" &
+          PHP_VERSION=${{ steps.pmmp_version.outputs.PHP_VERSION }}
+          curl -JLOs "https://github.com/pmmp/PHP-Binaries/releases/download/pm${VERSION:0:1}-latest/PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/PocketMine-MP.phar" &
           curl -JLOs "https://github.com/pmmp/PocketMine-MP/releases/latest/download/start.cmd" &
           curl -JLOs "https://github.com/pmmp/DevTools/releases/latest/download/DevTools.phar" &
+          curl -JLOs "https://aka.ms/vs/17/release/vc_redist.x64.exe" &
           wait
-          unzip -q PHP-Windows-x64-PM${VERSION:0:1}.zip
+          unzip -q PHP-${PHP_VERSION}-Windows-x64-PM${VERSION:0:1}.zip
 
       - name: Create installer
         if: steps.cache.outputs.cache-hit != 'true'
