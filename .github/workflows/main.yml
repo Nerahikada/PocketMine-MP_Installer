@@ -22,7 +22,7 @@ jobs:
 
           echo $PM_VERSION > version_cache
 
-          store() { echo "{$1}={$2}" >> $GITHUB_OUTPUT; }
+          store() { echo "$1=$2" >> $GITHUB_OUTPUT; }
           store PHP_VERSION $PHP_VERSION
           store PM_VERSION $PM_VERSION
           store CHANGELOG $CHANGELOG
