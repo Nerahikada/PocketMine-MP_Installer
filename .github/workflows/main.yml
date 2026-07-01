@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Get PocketMine-MP version
         id: pmmp_version
@@ -27,7 +27,7 @@ jobs:
           store PM_VERSION $PM_VERSION
           store CHANGELOG $CHANGELOG
 
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         id: cache
         with:
           path: version_cache
